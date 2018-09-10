@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Logger\LogWriter;
 use App\VehicleInterface;
+use Exception;
 
 abstract class Vehicle implements VehicleInterface
 {
@@ -18,13 +20,38 @@ abstract class Vehicle implements VehicleInterface
     protected $action = [];
 
     /**
+     * @var \App\Logger\LogWriter
+     */
+    private $log;
+
+
+    public function __call(string $name, array $args)
+    {
+
+        try {
+            $class = get_class($this);
+            throw new Exception("Instance $class method $name() doesn't exist");
+        } catch (\Exception $e) {
+            $this->log->error($e->getMessage());
+        }
+
+        return $this;
+    }
+
+    /**
      * Vehicle constructor.
      *
-     * @param string $name
+     * @param $name
+     *
+     * @throws \Exception
      */
     public function __construct($name)
     {
         $this->setName($name);
+        // Use composition
+        $this->log = new LogWriter(
+          __DIR__.'/../../logs/log-'.date('d-M-Y').'.txt'
+        );
     }
 
     /**

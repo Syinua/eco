@@ -2,7 +2,6 @@
 
 namespace App\Composite;
 
-use App\Models\Vehicle;
 use App\VehicleDirectoryInterface;
 use App\VehicleInterface;
 
@@ -46,16 +45,21 @@ class VehicleDirectory implements VehicleDirectoryInterface
      */
     public function showVehicleDetails(): string
     {
-        $listCode = '<ul>';
+        if (empty($this->vehicles)) {
+            // vehicle is empty.
+            return 'vehicle not found';
+        }
+
+        $listVehicle = '<ul>';
         foreach ($this->vehicles as $vehicle) {
             $name = $vehicle->getName();
             foreach ($vehicle->getAction() as $action) {
-                $listCode .= '<li>'.$name.' - '.$action.'</li>';
+                $listVehicle .= '<li>'.$name.' - '.$action.'</li>';
             }
         }
 
-        $listCode .= '</ul>';
+        $listVehicle .= '</ul>';
 
-        return $listCode;
+        return $listVehicle;
     }
 }
