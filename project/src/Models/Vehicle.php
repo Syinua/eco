@@ -38,20 +38,17 @@ abstract class Vehicle implements VehicleInterface
         return $this;
     }
 
+
     /**
      * Vehicle constructor.
      *
      * @param $name
-     *
-     * @throws \Exception
+     * @param \App\Logger\LogWriter $log
      */
-    public function __construct($name)
+    public function __construct($name, LogWriter $log)
     {
         $this->setName($name);
-        // Use composition
-        $this->log = new LogWriter(
-          __DIR__.'/../../logs/log-'.date('d-M-Y').'.txt'
-        );
+        $this->log = $log;
     }
 
     /**

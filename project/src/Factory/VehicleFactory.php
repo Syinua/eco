@@ -3,6 +3,7 @@
 
 namespace App\Factory;
 
+use App\Logger\LogWriter;
 use App\Models\Car;
 
 /**
@@ -15,11 +16,12 @@ class VehicleFactory
 
     /**
      * @param $name
+     * @param \App\Logger\LogWriter $log
      *
      * @return \App\Models\Car
      */
-    public function createCar($name): Car
+    public function createCar($name, LogWriter $log): Car
     {
-        return new Car($name);
+        return new Car($name, $log);
     }
 }
