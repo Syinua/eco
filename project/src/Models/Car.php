@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
-use App\VehicleInterface;
+use App\CarInterface;
 
 /**
  * Class Car
  *
  * @package App\Models
  */
-class Car extends Vehicle implements VehicleInterface
+class Car extends Vehicle implements CarInterface
 {
 
     /**
