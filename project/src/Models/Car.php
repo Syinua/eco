@@ -2,21 +2,32 @@
 
 namespace App\Models;
 
-use App\ICarVehicle;
+use App\VehicleInterface;
 
-class Car extends Vehicle implements ICarVehicle
+/**
+ * Class Car
+ *
+ * @package App\Models
+ */
+class Car extends Vehicle implements VehicleInterface
 {
 
+    /**
+     * @return $this
+     */
     public function move()
     {
-        $this->render('moving');
+        $this->action[] = 'moving';
 
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function musicOn()
     {
-        $this->render('music switched on');
+        $this->action[] = 'music switched on';
 
         return $this;
     }

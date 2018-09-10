@@ -2,15 +2,20 @@
 
 namespace App\Models;
 
-use App\IVehicle;
+use App\VehicleInterface;
 
-abstract class Vehicle implements IVehicle
+abstract class Vehicle implements VehicleInterface
 {
 
     /**
      * @var string
      */
     protected $name;
+
+    /**
+     * @var array
+     */
+    protected $action = [];
 
     /**
      * Vehicle constructor.
@@ -27,7 +32,7 @@ abstract class Vehicle implements IVehicle
      *
      * @param string $name
      *
-     * @return void
+     * @return string
      */
     public function setName($name)
     {
@@ -35,11 +40,27 @@ abstract class Vehicle implements IVehicle
     }
 
     /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAction(): array
+    {
+        return $this->action;
+    }
+
+    /**
      * @return $this
      */
     public function stop()
     {
-        $this->render('stopped');
+        $this->action[] = 'stopped';
 
         return $this;
     }
@@ -49,9 +70,9 @@ abstract class Vehicle implements IVehicle
      *
      * @return $this
      */
-    public function emptyLoads($object)
+    public function emptyLoads($object): string
     {
-        $this->render('empty loads', $object);
+        $this->action[] = 'empty loads '.$object;
 
         return $this;
     }
@@ -63,19 +84,8 @@ abstract class Vehicle implements IVehicle
      */
     public function refuel($object = 'gas')
     {
-        $this->render('refuel', $object);
+        $this->action[] = 'refuel '.$object;
 
         return $this;
     }
-
-
-    /**
-     * @param $string
-     * @param null $object
-     */
-    protected function render($string, $object = null)
-    {
-        echo '<b>'.$this->name.'</b> '.$string.' '.$object.'</br>';
-    }
-
 }
